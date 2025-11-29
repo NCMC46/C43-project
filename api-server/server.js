@@ -716,6 +716,11 @@ app.post('/api/portfolios/:id/buy', async (req, res) => {
                 [totalCost, portfolioId]
             );
             
+            await client.query(
+                'INSERT INTO stock_symbols(symbol) VALUES($1) ON CONFLICT DO NOTHING',
+                [symbol]
+            );
+            
             const holdingCheck = await client.query(`
                 SELECT COUNT(*) FROM stock_holding
                 WHERE portfolio_id = $1 AND stock_symbol = $2
