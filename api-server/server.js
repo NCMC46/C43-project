@@ -1,20 +1,21 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
-    host: 'localhost',
-    port: 5432,
-    database: 'mydb',
-    user: 'postgres',
-    password: 'Ma20050115'
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME || 'mydb',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'postgres'
 });
 
 pool.query('SELECT NOW()', (err, res) => {
@@ -2222,8 +2223,9 @@ function calculateVolatility(prices) {
     return Math.sqrt(variance);
 }
 
-app.listen(PORT, () => {
-    console.log(`API Server running on http://localhost:${PORT}`);
-    console.log(`Endpoints available at http://localhost:${PORT}/api`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`API Server running on http://0.0.0.0:${PORT}`);
+    console.log(`Endpoints available at http://0.0.0.0:${PORT}/api`);
+    console.log(`External access: http://34.42.29.160:${PORT}/api`);
 });
 
