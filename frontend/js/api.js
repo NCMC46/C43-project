@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'http://34.42.29.160:3000/api';
 
 
 function getAuthToken() {
