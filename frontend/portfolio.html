@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Stocks Social Network</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Stocks Social Network</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="portfolio.html" class="nav-link active">Portfolio</a>
+                <a href="stocklists.html" class="nav-link">Stock Lists</a>
+                <a href="friends.html" class="nav-link">Friends</a>
+                <a href="reviews.html" class="nav-link">Reviews</a>
+                <a href="stockdata.html" class="nav-link">Stock Data</a>
+            </div>
+            <div class="nav-user">
+                <span id="username-display"></span>
+                <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1>Portfolio Management</h1>
+            <div>
+                <button class="btn btn-primary" onclick="showCreatePortfolioModal()">+ Create Portfolio</button>
+                <a href="stockdata.html" class="btn btn-secondary">Record Stock Data</a>
+            </div>
+        </div>
+        
+        <div class="portfolio-list" id="portfolio-list">
+            <p class="text-muted">Loading portfolios...</p>
+        </div>
+    </main>
+    
+    
+    <div id="create-portfolio-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Portfolio</h2>
+                <button class="modal-close" onclick="closeModal('create-portfolio-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="create-portfolio-form">
+                    <div class="form-group">
+                        <label for="initial-cash">Initial Cash ($)</label>
+                        <input type="number" id="initial-cash" name="initial-cash" step="0.01" min="0" value="0" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('create-portfolio-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Portfolio</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="portfolio-details-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="portfolio-details-title">Portfolio Details</h2>
+                <button class="modal-close" onclick="closeModal('portfolio-details-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="portfolio-details-content">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="buy-stock-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Buy Stock</h2>
+                <button class="modal-close" onclick="closeModal('buy-stock-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="buy-stock-form">
+                    <input type="hidden" id="buy-stock-portfolio-id" name="portfolio_id">
+                    <div class="form-group">
+                        <label for="buy-stock-symbol">Stock Symbol</label>
+                        <input type="text" id="buy-stock-symbol" name="symbol" required placeholder="e.g., AAPL" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label for="buy-stock-shares">Number of Shares</label>
+                        <input type="number" id="buy-stock-shares" name="shares" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="buy-stock-price">Price per Share ($)</label>
+                        <input type="number" id="buy-stock-price" name="price" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('buy-stock-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Buy Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="deposit-cash-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Deposit Cash</h2>
+                <button class="modal-close" onclick="closeModal('deposit-cash-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="deposit-cash-form">
+                    <input type="hidden" id="deposit-cash-portfolio-id" name="portfolio_id">
+                    <div class="form-group">
+                        <label for="deposit-amount">Amount to Deposit ($)</label>
+                        <input type="number" id="deposit-amount" name="amount" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('deposit-cash-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Deposit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="withdraw-cash-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Withdraw Cash</h2>
+                <button class="modal-close" onclick="closeModal('withdraw-cash-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="withdraw-cash-form">
+                    <input type="hidden" id="withdraw-cash-portfolio-id" name="portfolio_id">
+                    <div class="form-group">
+                        <label for="withdraw-amount">Amount to Withdraw ($)</label>
+                        <input type="number" id="withdraw-amount" name="amount" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('withdraw-cash-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Withdraw</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="sell-stock-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sell Stock</h2>
+                <button class="modal-close" onclick="closeModal('sell-stock-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="sell-stock-form">
+                    <input type="hidden" id="sell-stock-portfolio-id" name="portfolio_id">
+                    <div class="form-group">
+                        <label for="sell-stock-symbol">Stock Symbol</label>
+                        <input type="text" id="sell-stock-symbol" name="symbol" required placeholder="e.g., AAPL" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label for="sell-stock-shares">Number of Shares</label>
+                        <input type="number" id="sell-stock-shares" name="shares" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell-stock-price">Price per Share ($)</label>
+                        <input type="number" id="sell-stock-price" name="price" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('sell-stock-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Sell Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="portfolio-statistics-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Portfolio Statistics</h2>
+                <button class="modal-close" onclick="closeModal('portfolio-statistics-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="stats-start-date">Start Date (optional):</label>
+                    <input type="date" id="stats-start-date" class="form-control" style="display: inline-block; width: auto; margin-left: 10px; margin-right: 20px;">
+                    <label for="stats-end-date">End Date (optional):</label>
+                    <input type="date" id="stats-end-date" class="form-control" style="display: inline-block; width: auto; margin-left: 10px;">
+                    <button class="btn btn-primary" onclick="updatePortfolioStatistics()" style="margin-left: 10px;">Update</button>
+                </div>
+                <div id="portfolio-statistics-content">
+                    <p class="loading">Loading statistics...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="stock-history-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="stock-history-title">Stock Price History</h2>
+                <button class="modal-close" onclick="closeModal('stock-history-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="history-interval">Time Interval:</label>
+                    <select id="history-interval" class="form-control" style="display: inline-block; width: auto; margin-left: 10px;">
+                        <option value="week">Last Week</option>
+                        <option value="month">Last Month</option>
+                        <option value="quarter">Last Quarter</option>
+                        <option value="year">Last Year</option>
+                        <option value="5years">Last 5 Years</option>
+                        <option value="all" selected>All Time</option>
+                    </select>
+                </div>
+                <div id="stock-history-content">
+                    <p class="loading">Loading history...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="stock-predictions-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="stock-predictions-title">Stock Price Predictions</h2>
+                <button class="modal-close" onclick="closeModal('stock-predictions-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="prediction-days">Predict Next (days):</label>
+                    <input type="number" id="prediction-days" class="form-control" style="display: inline-block; width: auto; margin-left: 10px;" value="30" min="1" max="365">
+                    <button class="btn btn-primary" onclick="updatePredictions()" style="margin-left: 10px;">Update</button>
+                </div>
+                <div id="stock-predictions-content">
+                    <p class="loading">Loading predictions...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/api.js"></script>
+    <script src="js/portfolio.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Lists - Stocks Social Network</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Stocks Social Network</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="stocklists.html" class="nav-link active">Stock Lists</a>
+                <a href="friends.html" class="nav-link">Friends</a>
+                <a href="reviews.html" class="nav-link">Reviews</a>
+                <a href="stockdata.html" class="nav-link">Stock Data</a>
+            </div>
+            <div class="nav-user">
+                <span id="username-display"></span>
+                <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1>Stock Lists</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="showCreateStockListModal()">+ Create Stock List</button>
+                <button class="btn btn-secondary" onclick="viewAccessibleLists()">View Accessible Lists</button>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('my-lists')">My Lists</button>
+            <button class="tab-btn" onclick="switchTab('accessible-lists')">Accessible Lists</button>
+        </div>
+        
+        <div id="my-lists" class="tab-content active">
+            <div class="stocklist-grid" id="stocklist-grid">
+                <p class="text-muted">Loading stock lists...</p>
+            </div>
+        </div>
+        
+        <div id="accessible-lists" class="tab-content">
+            <div class="stocklist-grid" id="accessible-lists-grid">
+                <p class="text-muted">Loading accessible stock lists...</p>
+            </div>
+        </div>
+    </main>
+    
+    
+    <div id="create-stocklist-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Stock List</h2>
+                <button class="modal-close" onclick="closeModal('create-stocklist-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="create-stocklist-form">
+                    <div class="form-group">
+                        <label for="stocklist-visibility">Visibility</label>
+                        <select id="stocklist-visibility" name="visibility" required>
+                            <option value="private">Private</option>
+                            <option value="shared">Shared</option>
+                            <option value="public">Public</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('create-stocklist-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create List</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="stocklist-details-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="stocklist-details-title">Stock List Details</h2>
+                <button class="modal-close" onclick="closeModal('stocklist-details-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="stocklist-details-content">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="add-stock-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Stock to List</h2>
+                <button class="modal-close" onclick="closeModal('add-stock-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-stock-form">
+                    <input type="hidden" id="add-stock-list-id" name="stock_list_id">
+                    <div class="form-group">
+                        <label for="add-stock-symbol">Stock Symbol</label>
+                        <input type="text" id="add-stock-symbol" name="symbol" required placeholder="e.g., AAPL" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-stock-shares">Number of Shares</label>
+                        <input type="number" id="add-stock-shares" name="shares" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('add-stock-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="stocklist-statistics-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="stocklist-statistics-title">Stock List Statistics</h2>
+                <button class="modal-close" onclick="closeModal('stocklist-statistics-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="stocklist-stats-start-date">Start Date (optional):</label>
+                    <input type="date" id="stocklist-stats-start-date" class="form-control" style="display:inline-block;width:auto;margin-left:10px;margin-right:20px;">
+                    <label for="stocklist-stats-end-date">End Date (optional):</label>
+                    <input type="date" id="stocklist-stats-end-date" class="form-control" style="display:inline-block;width:auto;margin-left:10px;">
+                    <button class="btn btn-primary" onclick="updateStockListStatistics()" style="margin-left:10px;">Update</button>
+                </div>
+                <div id="stocklist-statistics-content">
+                    <p class="loading">Loading statistics...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/api.js"></script>
+    <script src="js/stocklists.js"></script>
+</body>
+</html>
+

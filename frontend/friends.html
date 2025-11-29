@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends - Stocks Social Network</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Stocks Social Network</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="stocklists.html" class="nav-link">Stock Lists</a>
+                <a href="friends.html" class="nav-link active">Friends</a>
+                <a href="reviews.html" class="nav-link">Reviews</a>
+                <a href="stockdata.html" class="nav-link">Stock Data</a>
+            </div>
+            <div class="nav-user">
+                <span id="username-display"></span>
+                <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1>Friends</h1>
+            <button class="btn btn-primary" onclick="showSendRequestModal()">+ Send Friend Request</button>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(event, 'friends')">My Friends</button>
+            <button class="tab-btn" onclick="switchTab(event, 'incoming')">Incoming Requests</button>
+            <button class="tab-btn" onclick="switchTab(event, 'outgoing')">Outgoing Requests</button>
+        </div>
+        
+        <div id="friends" class="tab-content active">
+            <div class="friends-list" id="friends-list">
+                <p class="text-muted">Loading friends...</p>
+            </div>
+        </div>
+        
+        <div id="incoming" class="tab-content">
+            <div class="requests-list" id="incoming-requests-list">
+                <p class="text-muted">Loading incoming requests...</p>
+            </div>
+        </div>
+        
+        <div id="outgoing" class="tab-content">
+            <div class="requests-list" id="outgoing-requests-list">
+                <p class="text-muted">Loading outgoing requests...</p>
+            </div>
+        </div>
+    </main>
+    
+    
+    <div id="send-request-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Send Friend Request</h2>
+                <button class="modal-close" onclick="closeModal('send-request-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="send-request-form">
+                    <div class="form-group">
+                        <label for="friend-username">Username</label>
+                        <input type="text" id="friend-username" name="username" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('send-request-modal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Send Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/api.js"></script>
+    <script src="js/friends.js"></script>
+</body>
+</html>
+
+

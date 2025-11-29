@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Stocks Social Network</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Stocks Social Network</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="stocklists.html" class="nav-link">Stock Lists</a>
+                <a href="friends.html" class="nav-link">Friends</a>
+                <a href="reviews.html" class="nav-link">Reviews</a>
+                <a href="stockdata.html" class="nav-link">Stock Data</a>
+            </div>
+            <div class="nav-user">
+                <span id="username-display"></span>
+                <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <p>Welcome back! Here's your overview.</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Portfolio Summary</h3>
+                </div>
+                <div class="card-body">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Portfolios</span>
+                        <span class="stat-value" id="portfolio-count">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Value</span>
+                        <span class="stat-value" id="portfolio-value">$-</span>
+                    </div>
+                    <a href="portfolio.html" class="btn btn-primary btn-block mt-3">View Portfolios</a>
+                </div>
+            </div>
+            
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Stock Lists</h3>
+                </div>
+                <div class="card-body">
+                    <div class="stat-item">
+                        <span class="stat-label">My Lists</span>
+                        <span class="stat-value" id="stocklist-count">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Shared Lists</span>
+                        <span class="stat-value" id="shared-list-count">-</span>
+                    </div>
+                    <a href="stocklists.html" class="btn btn-primary btn-block mt-3">Manage Lists</a>
+                </div>
+            </div>
+            
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3>Friends</h3>
+                </div>
+                <div class="card-body">
+                    <div class="stat-item">
+                        <span class="stat-label">Friends</span>
+                        <span class="stat-value" id="friends-count">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Pending Requests</span>
+                        <span class="stat-value" id="pending-requests">-</span>
+                    </div>
+                    <a href="friends.html" class="btn btn-primary btn-block mt-3">Manage Friends</a>
+                </div>
+            </div>
+            
+            
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3>Recent Activity</h3>
+                </div>
+                <div class="card-body">
+                    <div id="recent-activity" class="activity-list">
+                        <p class="text-muted">Loading activity...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
+
+

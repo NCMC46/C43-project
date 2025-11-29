@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Stock Data - Stocks Social Network</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Stocks Social Network</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="stocklists.html" class="nav-link">Stock Lists</a>
+                <a href="friends.html" class="nav-link">Friends</a>
+                <a href="reviews.html" class="nav-link">Reviews</a>
+                <a href="stockdata.html" class="nav-link active">Stock Data</a>
+            </div>
+            <div class="nav-user">
+                <span id="username-display"></span>
+                <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1>Record New Stock Data</h1>
+            <p>Add daily stock information (Timestamp, Open, High, Low, Close, Volume, Symbol)</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Enter Stock Data</h3>
+            </div>
+            <div class="card-body">
+                <form id="stock-data-form">
+                    <div class="form-group">
+                        <label for="stock-symbol">Stock Symbol (Code) *</label>
+                        <input type="text" id="stock-symbol" name="symbol" required 
+                               placeholder="e.g., AAPL" style="text-transform: uppercase;" maxlength="5">
+                        <small class="form-text">Stock ticker symbol</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stock-timestamp">Timestamp (Date) *</label>
+                        <input type="date" id="stock-timestamp" name="timestamp" required>
+                        <small class="form-text">Date for the stock data (YYYY-MM-DD)</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stock-open">Open Price ($) *</label>
+                            <input type="number" id="stock-open" name="open" step="0.01" min="0" required>
+                            <small class="form-text">Opening price</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="stock-high">High Price ($) *</label>
+                            <input type="number" id="stock-high" name="high" step="0.01" min="0" required>
+                            <small class="form-text">Highest price of the day</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stock-low">Low Price ($) *</label>
+                            <input type="number" id="stock-low" name="low" step="0.01" min="0" required>
+                            <small class="form-text">Lowest price of the day</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="stock-close">Close Price ($) *</label>
+                            <input type="number" id="stock-close" name="close" step="0.01" min="0" required>
+                            <small class="form-text">Closing price</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stock-volume">Volume *</label>
+                        <input type="number" id="stock-volume" name="volume" step="1" min="0" required>
+                        <small class="form-text">Number of shares traded</small>
+                    </div>
+                    
+                    <div id="form-error" class="error-message" style="display: none;"></div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                        <button type="submit" class="btn btn-primary">Record Stock Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3>Information</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Note:</strong> This data will be integrated with historical stock data. If data for the same symbol and date already exists, it will be updated.</p>
+                <p><strong>Format:</strong> Timestamp, Open, High, Low, Close, Volume, Code</p>
+                <p><strong>Example:</strong> 2024-01-15, 150.00, 152.50, 149.50, 151.20, 50000000, AAPL</p>
+            </div>
+        </div>
+    </main>
+    
+    <script src="js/api.js"></script>
+    <script src="js/stockdata.js"></script>
+</body>
+</html>
+
+
